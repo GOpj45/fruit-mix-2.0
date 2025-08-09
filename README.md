@@ -1,1 +1,145 @@
 # fruit-mix-2.0
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Random Fruit</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #fefefe;
+      text-align: center;
+      padding: 2rem;
+      color: #333;
+    }
+    h1 {
+      margin-bottom: 1rem;
+    }
+    #fruit-name {
+      font-size: 2rem;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    #fruit-image {
+      margin-top: 1rem;
+      max-width: 300px;
+      max-height: 300px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    button {
+      margin-top: 2rem;
+      background: #4caf50;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Random Fruit Generator</h1>
+
+  <div id="fruit-display">
+    <div id="fruit-name">Click the button to see a fruit!</div>
+    <img id="fruit-image" src="" alt="" style="display:none;" />
+  </div>
+
+  <button onclick="showRandomFruit()">Show Random Fruit</button>
+
+  <script>
+    const fruits = [
+      ["Apple", "https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg"],
+      ["Apricot", "https://upload.wikimedia.org/wikipedia/commons/6/6b/Apricot.jpg"],
+      ["Avocado", "https://upload.wikimedia.org/wikipedia/commons/f/f5/Avocado_DSC_0644.jpg"],
+      ["Banana", "https://upload.wikimedia.org/wikipedia/commons/8/8a/Banana-Single.jpg"],
+      ["Blackberry", "https://upload.wikimedia.org/wikipedia/commons/6/6e/Blackberries.jpg"],
+      ["Blueberry", "https://upload.wikimedia.org/wikipedia/commons/1/15/Blueberries.jpg"],
+      ["Cantaloupe", "https://upload.wikimedia.org/wikipedia/commons/3/36/Cantaloupe_and_cross_section.jpg"],
+      ["Cherry", "https://upload.wikimedia.org/wikipedia/commons/b/bb/Cherry_Stella444.jpg"],
+      ["Coconut", "https://upload.wikimedia.org/wikipedia/commons/2/2c/Coconut_on_white_background.jpg"],
+      ["Cranberry", "https://upload.wikimedia.org/wikipedia/commons/f/fb/Cranberries.jpg"],
+      ["Date", "https://upload.wikimedia.org/wikipedia/commons/3/36/Khadrawy_dates.jpg"],
+      ["Dragonfruit", "https://upload.wikimedia.org/wikipedia/commons/e/ef/Pitaya_cross_section_ed2.jpg"],
+      ["Elderberry", "https://upload.wikimedia.org/wikipedia/commons/e/e1/Sambucus-berries.jpg"],
+      ["Fig", "https://upload.wikimedia.org/wikipedia/commons/4/4c/Figs.jpg"],
+      ["Grape", "https://upload.wikimedia.org/wikipedia/commons/1/1b/Table_grapes_on_white.jpg"],
+      ["Grapefruit", "https://upload.wikimedia.org/wikipedia/commons/2/2c/Grapefruit_and_cross_section.jpg"],
+      ["Guava", "https://upload.wikimedia.org/wikipedia/commons/6/6f/Guava_ID.jpg"],
+      ["Honeydew", "https://upload.wikimedia.org/wikipedia/commons/0/06/Honeydew.jpg"],
+      ["Jackfruit", "https://upload.wikimedia.org/wikipedia/commons/f/f2/Jackfruit_hanging.JPG"],
+      ["Kiwi", "https://upload.wikimedia.org/wikipedia/commons/d/d3/Kiwi_aka.jpg"],
+      ["Kumquat", "https://upload.wikimedia.org/wikipedia/commons/e/e4/Kumquat.jpg"],
+      ["Lemon", "https://upload.wikimedia.org/wikipedia/commons/3/36/Lemon.jpg"],
+      ["Lime", "https://upload.wikimedia.org/wikipedia/commons/b/bc/Limes.jpg"],
+      ["Lychee", "https://upload.wikimedia.org/wikipedia/commons/d/d0/Lychee_fruit.jpg"],
+      ["Mango", "https://upload.wikimedia.org/wikipedia/commons/9/90/Hapus_Mango.jpg"],
+      ["Mulberry", "https://upload.wikimedia.org/wikipedia/commons/3/3b/Mulberries.jpg"],
+      ["Nectarine", "https://upload.wikimedia.org/wikipedia/commons/6/6e/Nectarine_and_cross_section.jpg"],
+      ["Orange", "https://upload.wikimedia.org/wikipedia/commons/c/c4/Orange-Fruit-Pieces.jpg"],
+      ["Papaya", "https://upload.wikimedia.org/wikipedia/commons/5/55/Papaya_cross_section_bnc.jpg"],
+      ["Passionfruit", "https://upload.wikimedia.org/wikipedia/commons/0/08/Passion_fruits_-_whole_and_halved.jpg"],
+      ["Peach", "https://upload.wikimedia.org/wikipedia/commons/9/9e/Peach_and_cross_section.jpg"],
+      ["Pear", "https://upload.wikimedia.org/wikipedia/commons/d/d3/Pear_photo.jpg"],
+      ["Pineapple", "https://upload.wikimedia.org/wikipedia/commons/c/cb/Pineapple_and_cross_section.jpg"],
+      ["Plum", "https://upload.wikimedia.org/wikipedia/commons/f/f1/Plums.jpg"],
+      ["Pomegranate", "https://upload.wikimedia.org/wikipedia/commons/1/15/Pomegranate_half.jpg"],
+      ["Quince", "https://upload.wikimedia.org/wikipedia/commons/0/02/Cydonia_oblonga_fruit.jpg"],
+      ["Raspberry", "https://upload.wikimedia.org/wikipedia/commons/0/0e/Raspberries05.jpg"],
+      ["Starfruit", "https://upload.wikimedia.org/wikipedia/commons/4/49/Carambola_aka_Star_fruit.jpg"],
+      ["Strawberry", "https://upload.wikimedia.org/wikipedia/commons/2/29/PerfectStrawberry.jpg"],
+      ["Tangerine", "https://upload.wikimedia.org/wikipedia/commons/8/89/Clementine_cross_section.jpg"],
+      ["Ugli fruit", "https://upload.wikimedia.org/wikipedia/commons/0/03/Ugli_Fruit.jpg"],
+      ["Watermelon", "https://upload.wikimedia.org/wikipedia/commons/f/fc/Watermelon_cross_BNC.jpg"],
+      ["Acai berry", "https://upload.wikimedia.org/wikipedia/commons/4/4c/Acai_Berries.jpg"],
+      ["Acerola", "https://upload.wikimedia.org/wikipedia/commons/3/3e/Acerola.jpg"],
+      ["Blackcurrant", "https://upload.wikimedia.org/wikipedia/commons/f/f6/Blackcurrant_with_leaves.jpg"],
+      ["Boysenberry", "https://upload.wikimedia.org/wikipedia/commons/5/59/Boysenberries.jpg"],
+      ["Breadfruit", "https://upload.wikimedia.org/wikipedia/commons/f/fd/Breadfruit_on_tree.jpg"],
+      ["Carambola", "https://upload.wikimedia.org/wikipedia/commons/4/49/Carambola_aka_Star_fruit.jpg"],
+      ["Cherimoya", "https://upload.wikimedia.org/wikipedia/commons/e/ee/Cherimoya_fruit.jpg"],
+      ["Durian", "https://upload.wikimedia.org/wikipedia/commons/f/fd/Durian.jpg"],
+      ["Feijoa", "https://upload.wikimedia.org/wikipedia/commons/8/83/Feijoa_Sellowiana_fruit.jpg"],
+      ["Gooseberry", "https://upload.wikimedia.org/wikipedia/commons/8/84/Gooseberries_on_bush.jpg"],
+      ["Huckleberry", "https://upload.wikimedia.org/wikipedia/commons/8/8b/Huckleberries.jpg"],
+      ["Jujube", "https://upload.wikimedia.org/wikipedia/commons/1/18/Jujube_fruits.jpg"],
+      ["Longan", "https://upload.wikimedia.org/wikipedia/commons/f/f4/Longan_fruit.jpg"],
+      ["Loquat", "https://upload.wikimedia.org/wikipedia/commons/3/3d/Eriobotrya_japonica_fruits.JPG"],
+      ["Medlar", "https://upload.wikimedia.org/wikipedia/commons/0/03/Mespilus_germanica_fruits.jpg"],
+      ["Mangosteen", "https://upload.wikimedia.org/wikipedia/commons/6/68/Mangosteen_fruit.jpg"],
+      ["Pomelo", "https://upload.wikimedia.org/wikipedia/commons/e/e4/Pomelo_fruit.jpg"],
+      ["Rambutan", "https://upload.wikimedia.org/wikipedia/commons/2/2e/Rambutan_close-up.jpg"],
+      ["Soursop", "https://upload.wikimedia.org/wikipedia/commons/6/6e/Soursop.jpg"],
+      ["Pawpaw", "https://upload.wikimedia.org/wikipedia/commons/e/e6/Asimina_triloba3.jpg"],
+      ["Persimmon", "https://upload.wikimedia.org/wikipedia/commons/0/0f/Kaki_fruit.jpg"],
+      ["Olive", "https://upload.wikimedia.org/wikipedia/commons/e/e6/Green_and_black_olives.jpg"],
+      ["Redcurrant", "https://upload.wikimedia.org/wikipedia/commons/b/bb/Redcurrant_on_bush.jpg"],
+      ["Rose apple", "https://upload.wikimedia.org/wikipedia/commons/4/41/Rose_apple.jpg"],
+      ["Sapodilla", "https://upload.wikimedia.org/wikipedia/commons/e/e1/Sapodilla_fruit.jpg"],
+      ["Horned melon", "https://upload.wikimedia.org/wikipedia/commons/4/48/Kiwano_aka_Horned_Melon.jpg"],
+      ["Custard apple", "https://upload.wikimedia.org/wikipedia/commons/e/e1/Custard_apple_fruit.jpg"],
+      ["Cactus pear", "https://upload.wikimedia.org/wikipedia/commons/6/6c/Cactus_pears.jpg"]
+    ];
+
+    function showRandomFruit() {
+      const randomIndex = Math.floor(Math.random() * fruits.length);
+      const [name, imgUrl] = fruits[randomIndex];
+      const nameEl = document.getElementById('fruit-name');
+      const imgEl = document.getElementById('fruit-image');
+
+      nameEl.textContent = name;
+      imgEl.src = imgUrl;
+      imgEl.alt = name;
+      imgEl.style.display = "inline-block";
+    }
+  </script>
+</body>
+</html>
